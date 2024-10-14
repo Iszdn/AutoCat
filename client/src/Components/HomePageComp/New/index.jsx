@@ -9,10 +9,10 @@ const New = () => {
         <div className="row">
           <div className="col-lg-4 col-md-6 col-12 neew">
             <div className="img">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0va1NFv21q5BCbcvPaCFE188ccRJvYAA07w&s" alt="Cat food dispenser in park" />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/HuseynCavidHeykeli.jpg/1200px-HuseynCavidHeykeli.jpg" alt="Cat food dispenser in park" />
             </div>
             <div className="content">
-              <h3>Şəhər Mərkəzi Parkı</h3>
+              <h3>Huseyn Cavid Parkı</h3>
               <p>Qida Aparatı Burada Mövcuddur</p>
             </div>
           </div>

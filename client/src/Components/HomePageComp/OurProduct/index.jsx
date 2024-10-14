@@ -12,21 +12,21 @@ const OurProduct = () => {
         {
           _id: 1,
           title: "Premium Cat Food",
-          price: 25,
+          price: 0.65,
           imageUrl: "https://bazarstore.az/cdn/shop/products/30162737_ed1da0bb-75df-4278-ac2b-9c0110870b98_767x1000.jpg?v=1693509656",
           description: "Yüksək keyfiyyətli pişik yemi, gündəlik qidalanma üçün idealdır."
         },
         {
           _id: 2,
           title: "Organic Fish Cat Treats",
-          price: 18,
+          price: 0.60,
           imageUrl: "https://fraulen.ru/img/catalog/c365964.jpg",
           description: "Organik balıqdan hazırlanmış sağlam pişik yemi."
         },
         {
           _id: 3,
           title: "Grain-Free Cat Food",
-          price: 30,
+          price: 0.50,
           imageUrl: "https://biopet.az/resized/resize317/center/products/3917/ezgifcom-webp-to-jpg-converter-9.jpg",
           description: "Taxılsız pişik yeməyi, həssas pişiklər üçün."
         }
@@ -51,7 +51,7 @@ const OurProduct = () => {
               <div className="img">
                 <img src={product.imageUrl} alt={product.title} />
               </div>
-              <div className="content">
+              <div className="content-cat">
                 <h3><Link to={`/products/${product._id}`}>{product.title}</Link></h3>
                 <p>{product.description}</p>
                 <p>{product.price} AZN</p>
