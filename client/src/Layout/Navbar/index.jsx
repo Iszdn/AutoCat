@@ -32,7 +32,7 @@ const Navbar = () => {
               <NavLink>Blog</NavLink>
             </li>
             <li>
-              <NavLink to="/add">Admin</NavLink>
+            <NavLink to="/signup">Qeydiyyat</NavLink>
             </li>
             <li>
               <NavLink>Pages</NavLink>
@@ -73,7 +73,7 @@ const Navbar = () => {
               <NavLink>Blog</NavLink>
             </li>
             <li>
-              <NavLink to="/add">Admin</NavLink>
+              <NavLink to="/signup">Qeydiyyat</NavLink>
             </li>
             <li>
               <NavLink to="/wish">Wishlist</NavLink>

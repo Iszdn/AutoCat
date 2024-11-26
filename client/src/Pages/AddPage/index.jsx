@@ -1,94 +1,226 @@
-import React, { useEffect, useState } from 'react'
-import "./index.scss"
-import axios from 'axios'
-import { Helmet } from 'react-helmet-async'
-import FormAdd from '../../Components/Formik'
-const AddPage = () => {
-  const [data, setData] = useState()
-  const [search, setSearch] = useState('')
-  const [property, setProperty] = useState(null)
-  async function getData() {
-    const res=await axios("http://localhost:3000/")
-    setData(res.data)
-  }
-  useEffect(() => {
-    getData()
-  
-    
-  }, [])
-  async function deletetData(id) {
-    const res=await axios.delete(`http://localhost:3000/${id}`)
-    getData()
-  }
-  function typeOfItem(item) {
-    if (typeof item === "string") {
-      return item.toLowerCase()
-    }
-    else{
-      return item
-    }
-  }
+import React, { useState } from 'react';
+import './index.scss';
+import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
+
+const SignupPage = () => {
+  const navigate = useNavigate();
+  const [category, setCategory] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    surname: '',
+    email: '',
+    password: '',
+    volunteerOrganization: '',
+    university: '',
+    jobPlace: '',
+    jobField: '',
+  });
+
+  const handleCategoryChange = (e) => setCategory(e.target.value);
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Təsdiqlənmiş Məlumatlar:', { category, ...formData });
+    alert('Form uğurla göndərildi!');
+    setFormData({
+      name: '',
+      surname: '',
+      email: '',
+      password: '',
+      volunteerOrganization: '',
+      university: '',
+      jobPlace: '',
+      jobField: '',
+    }); // Form sahələrini sıfırlayın
+    setCategory(''); // Kategoriyanı sıfırlayın
+    navigate('/'); // Home səhifəsinə yönləndirin
+  };
+
+  const handleResetCategory = () => {
+    setCategory('');
+  };
+
   return (
     <>
-     <Helmet>
-      <title>add</title>
-     </Helmet> 
-     <div className="add">
-       <FormAdd getData={getData}/>
-     <div className="filter">
-      <input type="search"  value={search} onChange={(e)=>setSearch(e.target.value)}/>
-<div onClick={()=>setProperty({name:"title",asc:true})} className="btn">a-z</div>
-<div onClick={()=>setProperty({name:"title",asc:false})} className="btn">z-a</div>
-<div onClick={()=>setProperty({name:"price",asc:true})} className="btn">inc</div>
-<div onClick={()=>setProperty({name:"price",asc:false})} className="btn">dec</div>
-<div onClick={()=>setProperty({name:"title",asc:null})} className="btn">default</div>
-     </div>
-     <div className="table">
-     <div className="overflow-x-auto">
-  <table className="table">
- 
-    <thead>
-      <tr>
-        <th>image</th>
-        <th>title</th>
-        <th>price</th>
-        <th>delete</th>
-      </tr>
-    </thead>
-    <tbody>
-     {
-      data && data
-      .filter(x=>x.title.toLowerCase().includes(search.toLowerCase()))
-      .sort((a,b)=>{
-        if (property && property.asc===true) {
-          return typeOfItem(a[property.name])<typeOfItem(b[property.name]) ? -1 : (typeOfItem(b[property.name])<typeOfItem(a[property.name]) ? 1 : 0)
-        }
-        else if (property && property.asc===false) {
-          return typeOfItem(a[property.name])>typeOfItem(b[property.name]) ? -1 : (typeOfItem(b[property.name])>typeOfItem(a[property.name]) ? 1 : 0)
-        }
-        else{
-          return 0;
-        }
-      })
-      .map(x=>
-      <tr key={x._id}>
-        <td><img src={x.image} alt="" /></td>
-        <td>{x.title}</td>
-        <td>{x.price}$</td>
-        <td><i onClick={()=>deletetData(x._id)} class="fa-regular fa-trash-can"></i></td>
-      </tr>
-        )
-     }
-      
-      
-    </tbody>
-  </table>
-</div>
-     </div>
-     </div>
-    
-    </>
-  )
-}
+      <Helmet>
+        <title>Qeydiyyat</title>
+      </Helmet>
+      <div className="sign-up-cont">
+        <div className="signup-container">
+          <h1>Qeydiyyat</h1>
+          {!category ? (
+            <div className="category-select">
+              <label>Kategoriyanı Seçin:</label>
+              <select value={category} onChange={handleCategoryChange}>
+                <option value="">Zəhmət olmasa seçin</option>
+                <option value="volunteer">Könüllü</option>
+                <option value="student">Tələbə</option>
+                <option value="employee">İşçi</option>
+              </select>
+            </div>
+          ) : (
+            <>
+              <form onSubmit={handleSubmit}>
+                {category === 'volunteer' && (
+                  <>
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Ad"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="surname"
+                      placeholder="Soyad"
+                      value={formData.surname}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="volunteerOrganization"
+                      placeholder="Könüllü təşkilat"
+                      value={formData.volunteerOrganization}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Şifrə"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </>
+                )}
 
-export default AddPage
+                {category === 'student' && (
+                  <>
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Ad"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="surname"
+                      placeholder="Soyad"
+                      value={formData.surname}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="university"
+                      placeholder="Universitet"
+                      value={formData.university}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Şifrə"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </>
+                )}
+
+                {category === 'employee' && (
+                  <>
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Ad"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="surname"
+                      placeholder="Soyad"
+                      value={formData.surname}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="jobPlace"
+                      placeholder="İş yeri"
+                      value={formData.jobPlace}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="jobField"
+                      placeholder="İxtisas sahəsi"
+                      value={formData.jobField}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Şifrə"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </>
+                )}
+
+                <button type="submit" className="submit-btn">
+                  Göndər
+                </button>
+              </form>
+              <button onClick={handleResetCategory} className="reset-btn">
+                Geri dön
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default SignupPage;
